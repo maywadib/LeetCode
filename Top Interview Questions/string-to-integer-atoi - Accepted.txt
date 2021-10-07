@@ -1,0 +1,57 @@
+'''
+https://leetcode.com/problems/string-to-integer-atoi/submissions/
+'''
+
+import math
+class Solution(object):
+    def myAtoi(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        s = s.strip()
+        isDigStarted = False
+        isNegative = False
+        isSignNoted = False
+        strSoFar = ""
+        for char in s:
+            if not isDigStarted:
+                if char == "-" and isSignNoted == False:
+                    isNegative = True
+                    isSignNoted = True
+                    isDigStarted = True
+                elif char == "+" and isSignNoted == False:
+                    isSignNoted = True
+                    isDigStarted = True
+                    pass
+                elif char == " ":
+                    pass
+                elif char.isdigit():
+                    strSoFar = strSoFar + char
+                    isDigStarted = True
+                else:
+                    break
+            else:
+                if char.isdigit():
+                    strSoFar = strSoFar + char
+                else:
+                    break
+        
+        
+        if strSoFar.strip() == "":
+            return 0
+            
+        num = int(strSoFar)
+        
+        if isNegative:
+            num = 0-num
+        
+        if num < -math.pow(2,31):
+            num = -2147483648
+        elif num > math.pow(2,31)-1:
+            num = 2147483647
+        
+        
+        return num
+                

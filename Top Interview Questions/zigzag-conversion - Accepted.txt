@@ -1,0 +1,69 @@
+'''
+https://leetcode.com/problems/zigzag-conversion/submissions/
+'''
+
+class Solution(object):
+    def convert(self, s, numRows):
+        """
+        :type s: str
+        :type numRows: int
+        :rtype: str
+        """
+        if numRows == 1:
+            return s
+            
+        final = {}
+        dummyInd = 1
+        dir = "down" 
+        for char in s:
+            if dummyInd <= numRows and dir == "down":
+                val = []
+                val = final[dummyInd] if dummyInd in final else []
+                val.append(char)
+                final[dummyInd] = val
+                dummyInd = dummyInd + 1
+                # print("===down===")
+                # print(dummyInd)
+                # print(char)
+                # print(final)
+            elif dummyInd == (numRows + 1):
+               
+                dummyInd = dummyInd - 2
+                dir = "up"
+                val = []
+                val = final[dummyInd]
+                val.append(char)
+                final[dummyInd] = val
+                if dummyInd - 1 > 0:
+                    dummyInd = dummyInd - 1
+                else:
+                    dir = "down"
+                    dummyInd = dummyInd + 1
+                # print("===last===")
+                # print(dummyInd)
+                # print(char)
+                # print(final)
+            elif dummyInd <= numRows and dir == "up":
+                
+                val = []
+                val = final[dummyInd]
+                val.append(char)
+                final[dummyInd] = val
+                if dummyInd == 2:
+                    dir = "down"
+                if dummyInd - 1 > 0:
+                    dummyInd = dummyInd - 1
+                else:
+                    dir = "down"
+                    dummyInd = dummyInd + 1
+                # print("===up===")
+                # print(dummyInd)
+                # print(char)
+                # print(final)
+                    
+        # print(final)
+        
+        finalString = ""
+        for k,v in final.items():
+            finalString = finalString + ''.join(v)
+        return finalString

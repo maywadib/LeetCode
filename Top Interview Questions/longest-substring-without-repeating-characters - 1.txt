@@ -1,0 +1,90 @@
+'''
+https://leetcode.com/problems/longest-substring-without-repeating-characters/submissions/
+didnt work for all
+
+'''
+
+import math
+
+class Solution(object):
+    
+    def isKeyPresent(self, lookupArray, key):
+        if key in lookupArray:
+            return True
+        else:
+            return False
+        
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if len(s) == 1:
+            return 1
+        if len(s) == 0:
+            return 0
+        
+        lookup = {}
+        highestEndIndex = float("-inf")
+        smallestStartIndex = float("inf")
+               
+        for index,char in enumerate(s):
+            positionEntry = {}
+            
+            if not self.isKeyPresent(lookup, char):
+                positionEntry = {"start": index, "end": None}
+                lookup[char] = positionEntry
+            else:
+                start = lookup[char]['start']
+                end = lookup[char]['end']
+                if end is None:
+                    # if  highestEndIndex != float("-inf") and index > highestEndIndex:
+                    #     continue
+                    lookup[char]['end'] = index
+                    if smallestStartIndex > lookup[char]['start']:
+                        smallestStartIndex = lookup[char]['start']
+                    if highestEndIndex < (index):
+                        highestEndIndex = (index)
+                
+                else:
+                    if (int(index) - int(end)) >= (int(end) - int(start)):
+                        lookup[char]['start'] = int(end)
+                        lookup[char]['end'] = int(index)
+                        
+                        if smallestStartIndex > lookup[char]['start']:
+                            smallestStartIndex = lookup[char]['start']
+                        if highestEndIndex < int(index):
+                            highestEndIndex = int(index)
+
+        print(lookup)
+        print(highestEndIndex)
+        print(smallestStartIndex)
+
+        # wherever null in end put length
+        max = 0
+        startIndex = 0
+        endIndex = 0
+        for key,entry in lookup.items():
+            if entry['end'] is None and entry['start'] > highestEndIndex :
+                entry['end'] = int(len(s))
+                entry['start'] = entry['start'] -1 if entry['start'] -1 >=0 \
+                                                    else entry['start'] 
+            elif entry['start'] < highestEndIndex and entry['start'] < smallestStartIndex and entry['end'] is None:
+                entry['end'] = entry['start'] + 1 + smallestStartIndex 
+            if entry['end'] is not None:
+                pass
+            else:
+                entry['end'] = int(len(s)-1)
+                entry['start'] = entry['start'] -1 if entry['start'] -1 >=0 \
+                                                    else entry['start'] 
+            diff = int(entry['end'] - entry['start'])
+            if max < diff:
+                max = diff
+                startIndex = int(entry['start'])
+                endIndex =  int(entry['end'])
+                
+        print(lookup)
+        print(s[startIndex:endIndex])
+        return max
+            
+        

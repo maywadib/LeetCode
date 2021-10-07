@@ -1,0 +1,72 @@
+'''
+https://leetcode.com/problems/longest-palindromic-substring/submissions/
+'''
+class Solution(object):
+    def check_if_palindrom(self, s):
+        indS = 0
+        indE = len(s)-1
+        while indS < indE:
+            if s[indS] != s[indE]:
+                return False
+            else:
+                indS = indS + 1
+                indE = indE - 1
+        return True
+        
+        
+    def longestPalindrome(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        
+        if len(s) == 1:
+            return s
+        if len(s) == 0:
+            return ""
+        if not 1 <= len(s) <= 1000:
+            return None
+        
+        lookup = {}
+        for index,char in enumerate(s):
+            if not char in lookup:
+                pos = [index]
+                lookup[char] = pos
+            else:
+                pos = lookup[char]
+                pos.append(index)
+                lookup[char] = pos
+       
+        # print(lookup)
+        max = 0
+        allSingle = True
+        maxString = ""
+        
+        #if all same char
+        
+        
+        for key,value in lookup.items():
+            if len(value) < 2:
+               continue
+            if len(value) == len(s):
+               return s
+            else:
+                allSingle = False
+                for index1, a in enumerate(value):
+                    for index2, b in enumerate(value[index1 + 1:]):
+                        diff = int(b) - int(a) +1
+                        # print(diff)
+                        subS = s[int(a):int(b)+1]
+                        # print(subS)
+                        if max < diff and self.check_if_palindrom(subS):
+                            max = diff
+                            maxString = subS
+        
+        if allSingle:
+            return s[0]
+        # print(max)
+        # print(maxString)
+        if maxString == "" and len(s)>1:
+            return s[0]
+        return maxString
+        

@@ -1,0 +1,50 @@
+https://leetcode.com/problems/add-two-numbers/submissions/
+
+
+import math
+
+# Definition for singly-linked list.
+# class ListNode(object):
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution(object):
+    def get_number_in_correct_order(self, llist):
+        if llist == None:
+            return 0;
+        
+        # size = 0
+        index = 0
+        number = 0
+        tempList = llist
+        while tempList is not None:
+            # size = size + 1
+            number = number + int(tempList.val) * math.pow(10, index)
+            index = index + 1
+            tempList = tempList.next
+        
+        return int(number)
+    
+    def addTwoNumbers(self, l1, l2):
+        """
+        :type l1: ListNode
+        :type l2: ListNode
+        :rtype: ListNode
+        """
+        
+        number1 = self.get_number_in_correct_order(l1)
+        number2 = self.get_number_in_correct_order(l2)
+        sum = number1 + number2
+        
+        headNode = ListNode(int(str(sum)[::-1][0]))
+        sumLlist = headNode 
+        for arrayIndex,digit in enumerate(str(sum)[::-1]):
+            if(arrayIndex == 0):
+                continue
+            tempNode = ListNode(int(digit))
+            sumLlist.next = tempNode
+            sumLlist = tempNode
+        
+        return headNode
+    
+        
