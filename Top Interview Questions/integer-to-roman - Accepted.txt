@@ -1,0 +1,41 @@
+'''
+https://leetcode.com/problems/integer-to-roman/submissions/
+'''
+class Solution(object):
+    
+    def getChar(self, num):
+        
+        if num==0:
+            return ""
+        
+        elif num in range(1,5):
+            return "I" + self.getChar(num-1)
+        elif num in range(5,10):
+            return "V" + self.getChar(num - 5) 
+        elif num in range(10,50):
+            return "X" + self.getChar(num-10)
+        elif num in range(50,100):
+            return "L" + self.getChar(num-50)
+        elif num in range(100,500):
+            return "C" + self.getChar(num-100)
+        elif num in range(500,1000):
+            return "D" + self.getChar(num-500)
+        elif num in range(1000,5000):
+            return "M" + self.getChar(num-1000)
+    
+    def intToRoman(self, num):
+        """
+        :type num: int
+        :rtype: str
+        """
+        roman = ""
+        size = len(str(num))
+        for ind, d in enumerate(str(num)):
+            ind = size - ind -1
+            n = int(d) * pow(10,ind)
+            if n  == 4 * pow(10,ind) or  n == 9 * pow(10,ind):
+                roman = roman + self.getChar(pow(10,ind)) + self.getChar(n + pow(10,ind))
+            else:
+                roman = roman + self.getChar(n)
+        
+        return roman

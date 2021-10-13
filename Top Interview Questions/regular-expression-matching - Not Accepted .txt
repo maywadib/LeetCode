@@ -1,0 +1,113 @@
+'''
+https://leetcode.com/problems/regular-expression-matching/
+'''
+class Solution(object):
+    def isMatch(self, s, p):
+        """
+        :type s: str
+        :type p: str
+        :rtype: bool
+        """
+        
+        isRev = False
+        skip = False
+        
+        #if .* then always true
+        if p == ".*":
+            return True
+        
+        if "#" in s:
+            isRev = True
+            s = s[1:]
+        
+        indS = 0
+        previousP_Char = ""
+        
+        #iterate through P
+        for index,char in enumerate(p):
+                        
+            if char == ".":
+                previousP_Char = "any"
+                indS = indS + 1
+            elif char == "*":
+                print("==*==")
+                print(previousP_Char)
+                print(char)
+                print(indS)
+                print(s[indS])
+                if skip == True:
+                    continue
+                # if previousP_Char != s[indS]:
+                #     return False
+                else:
+                    #Special handling for .* case
+                    
+                    if previousP_Char == "any":
+                        if index == len(p) -1:
+                            return True
+                        else:
+                            nexPatternChar = p[index+1]
+                            revStr = s[indS-1:len(s)]
+                            revStr = "#" + revStr[::-1] 
+                            isRev = True
+                            revP = p[index + 1:len(p)]
+                            revP = revP[::-1]
+                            
+                            strCopy = ""
+                            toAdd = False
+                            for index,char in enumerate(revP):
+                                if char  == "*":
+                                    toAdd = True
+                                else:
+                                    strCopy = strCopy + char
+                                    if toAdd == True:
+                                        strCopy = strCopy + "*"
+                                        toAdd = False
+                                    
+                            revP = strCopy  
+                            print("===HAHAHA=====")
+                            print(revStr)
+                            print(revP)
+                            return self.isMatch(revStr,revP)
+                    
+                    while indS < len(s):
+                        if previousP_Char == s[indS]:
+                            indS = indS + 1
+                        else:
+                            # indS = indS - 1
+                            break
+                    # if indS >= len(s):
+                    #     return True
+            else:              
+                if index+1 < len(p):
+                    print(char)
+                    print(indS)
+                    print(s[indS])
+                    if char != s[indS] and p[index+1] != "*":
+                        return False
+                    elif char != s[indS] and p[index+1] == "*":
+                        skip = True
+                    else:
+                        skip = False
+                        indS = indS + 1
+                        previousP_Char = char
+                else:
+                    print(char)
+                    print(indS)
+                    print(s[indS])
+                    if char != s[indS]:
+                        return False
+                    else:
+                        skip = False
+                        indS = indS + 1
+                        previousP_Char = char
+        print("++++++")
+        print(indS)
+        print(len(s))
+        if indS != len(s):
+            if isRev == True:
+                print("====Here======")
+                return True
+            return False
+            
+        return True

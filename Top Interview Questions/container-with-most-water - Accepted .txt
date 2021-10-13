@@ -1,0 +1,53 @@
+'''
+
+https://leetcode.com/problems/container-with-most-water/submissions/
+
+'''class Solution(object):
+    
+    def getArea(self, sI, sV, eI, eV):
+        width = abs(eI - sI)
+        height = min(sV,eV)
+        area = width * height
+        return area
+    
+    def maxArea(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        if len(height) == 1:
+            return 0
+        if len(height) == 2:
+            return min(height[0], height[1])
+        
+        rightP = len(height) - 1
+        leftP = 0
+        
+        maxArea = 0
+        
+        
+        
+        while leftP < rightP:
+            leftV = height[leftP]
+            rightV = height[rightP]
+            maxAreaTemp = self.getArea(leftP, leftV, rightP, rightV)
+            
+            if maxArea < maxAreaTemp:
+                maxArea = maxAreaTemp
+            
+        
+            if leftV <= rightV:
+                leftP += 1
+            elif rightV < leftV:
+                rightP -= 1
+            
+        
+        
+        return maxArea
+        
+            
+        
+        
+        
+        
+        

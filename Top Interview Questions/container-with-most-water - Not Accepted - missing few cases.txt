@@ -1,0 +1,73 @@
+'''
+
+https://leetcode.com/problems/container-with-most-water/
+
+'''
+class Solution(object):
+    
+    def getArea(self, sI, sV, eI, eV):
+        width = abs(eI - sI)
+        height = min(sV,eV)
+        area = width * height
+        return area
+    
+    def maxArea(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
+        if len(height) == 1:
+            return 0
+        if len(height) == 2:
+            return min(height[0], height[1])
+        
+        maxWidth = len(height) - 1
+        minSoFar = min(height[0], height[len(height) - 1])
+        minInd = 0 if height[0] <= height[len(height) - 1] else len(height) - 1
+        print(minInd)
+        maxSoFar = max(height[0], height[len(height) - 1])
+        maxInd = len(height) - 1 if height[0] <= height[len(height) - 1] else 0
+        print(maxInd)
+        maxArea = self.getArea(minInd, minSoFar, maxInd, maxSoFar)
+        print("maxArea")
+        print(maxArea)
+        for ind, entry in enumerate(height):
+            if ind == 0:
+                continue
+            if entry > minSoFar:
+                if abs(maxInd - ind) >= abs(minInd - ind) :
+                    area = self.getArea(ind, entry, maxInd, maxSoFar)
+                if abs(maxInd - ind) <= abs(minInd - ind) :
+                    area = self.getArea(ind, entry, minInd, minSoFar)
+                print("Before area")
+                print(ind)
+                print(entry)
+                print(maxInd)
+                print(maxSoFar)
+                print("=======")
+                print(area)
+                print(maxSoFar)
+                print(maxInd)
+                print(minSoFar)
+                print(minInd)
+                print("+++")
+                if area > maxArea:
+                    maxArea = area
+                    minSoFar = min(entry, maxSoFar)
+                    minInd = maxInd if entry >= maxSoFar else ind
+                    maxInd = ind if entry >= maxSoFar else maxInd
+                    maxSoFar = max(entry, maxSoFar)
+                    
+                    print(maxSoFar)
+                    print(maxInd)
+                    print(minSoFar)
+                    print(minInd)
+                     
+        print(maxArea)
+        return maxArea
+            
+        
+        
+        
+        
+        
