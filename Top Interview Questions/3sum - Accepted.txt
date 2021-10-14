@@ -1,0 +1,40 @@
+'''
+https://leetcode.com/problems/3sum/submissions/
+'''
+class Solution(object):
+    def threeSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        size = len(nums)
+        if size < 3 :
+            return []
+        
+        #sort array
+        nums.sort()
+        
+        final = []
+        for ind , num in enumerate(nums):
+            val1 = num
+            
+            leftP = ind + 1
+            rightP = size - 1
+            
+            while leftP < rightP:
+                val2 = nums[leftP]
+                val3 = nums[rightP]
+                
+                sum = val1 + val2 + val3
+                if sum == 0:
+                    triplet = [val1,val2,val3]
+                    if triplet not in final:
+                        final.append(triplet)
+                    leftP += 1
+                    rightP -=1
+                elif sum < 0:
+                    leftP += 1
+                else:
+                    rightP -= 1
+                    
+        return final

@@ -1,0 +1,39 @@
+'''
+https://leetcode.com/problems/3sum-closest/submissions/
+'''
+class Solution(object):
+    def threeSumClosest(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: int
+        """
+        size = len(nums)
+        if size < 3 :
+            return 0
+        
+        #sort array
+        nums.sort()
+        
+        final = float('inf')
+        for ind , num in enumerate(nums):
+            val1 = num
+            
+            leftP = ind + 1
+            rightP = size - 1
+            
+            while leftP < rightP:
+                val2 = nums[leftP]
+                val3 = nums[rightP]
+                sum = val1 + val2 + val3
+                if sum == target:
+                    return target
+                if abs(target - final) > abs(target - sum):
+                    final = sum
+                elif sum < target:
+                    leftP += 1
+                else:
+                    rightP -= 1
+                    
+        return final
+        

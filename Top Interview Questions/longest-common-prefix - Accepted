@@ -1,0 +1,31 @@
+'''
+
+https://leetcode.com/problems/longest-common-prefix/
+'''
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: str
+        """
+        if len(strs) == 1:
+            return strs[0]
+        
+        firstEntry = strs[0]
+        ind = 0;
+        prefix = ""
+        
+        while True:
+            val = None
+            for e in strs:
+                if ind == len(e):
+                    return prefix
+                elif val == None:
+                    val = e[ind] 
+                elif e[ind] != val:
+                    return prefix
+                
+            prefix += val
+            ind += 1
+            
+        return prefix
